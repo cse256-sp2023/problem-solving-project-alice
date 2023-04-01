@@ -121,13 +121,27 @@ $("#html-loc").find("*").uniqueId();
 $("sidepanel").append(effective_permissions);
 
 //  Undo button functionality
-let previousState = $("html").clone();
+let previousState = null;
 
-$("body").on("input", function () {
-  previousState = $("html").clone();
-});
+function undo() {
+  if (previousState) {
+    $("html").replaceWith(previousState);
+
+    previousState = null;
+
+    // Trigger any necessary event handlers or updates
+  }
+}
 
 $("#undo-btn").click(function () {
-  //   $("html").replaceWith(previousState);
-  console.log("Hi");
+  undo();
+  console.log("Undo button clicked");
+});
+
+function captureState() {
+  previousState = $("html").clone();
+}
+
+$("body").on("input", function () {
+  captureState();
 });
