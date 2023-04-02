@@ -5,33 +5,43 @@ effective_permissions = define_new_effective_permissions(id_effective_permission
 
 $('#sidepanel').append(effective_permissions);
 
-$('#effective_permission').attr('filepath', '/C/presentation_documents/important_file.txt');
+// $('#effective_permission').attr('filepath', '/C/presentation_documents/important_file.txt');
 $('#effective_permission').attr('username', 'administrator')
 
 let id_new_user_prefix = 'id_new_user_prefix'
-userBtn = define_new_user_select_field(id_new_user_prefix, "new_user_button");
+userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User");
 $('#sidepanel').append(userBtn);
+
+
+// let id_new_file_prefix = 'id_new_file_prefix'
+// userBtn = define_new_user_select_field(id_new_user_prefix, "Select A File");
+// $('#sidepanel').append(userBtn);
+
 
 
 
 let newDialog = define_new_dialog("new_dialog", "dialogPopup");
 $('.perm_info').click(function () {
-    console.log('clicked!');
-    newDialog.dialog('open')
-
     let filepath = $('#effective_permission').attr('filepath')
     let username = $('#effective_permission').attr('username')
     let permName = $(this).attr('permission_name')
 
-    console.log(filepath)
-    console.log(username)
-    console.log(permName)
+    // let newDialog = define_new_dialog("new_dialog", permName);
+    
+    $('#new_dialog').text(permName)
+
+    newDialog.dialog('open')
+    console.log("FILE PATH: " + filepath)
+    console.log("USERNAME: " + username)
+    console.log("PERM NAME: " + permName)
 
     fileObject = path_to_file[filepath]
     userObject = all_users[username]
 
     let response = allow_user_action(fileObject, userObject, permName, true)
     let formatResponse = get_explanation_text(response)
+    console.log(formatResponse)
+    
 
     $('#new_dialog').empty();
     $('#new_dialog').append(formatResponse);
@@ -53,6 +63,7 @@ function make_file_element(file_obj) {
                 </button>
             </h3>
         </div>`)
+
 
         // append children, if any:
         if (file_hash in parent_to_children) {
@@ -78,6 +89,13 @@ function make_file_element(file_obj) {
 for (let root_file of root_files) {
     let file_elem = make_file_element(root_file)
     $("#filestructure").append(file_elem);
+
+    let file_hash = get_full_path(root_file) + "_permbutton";
+    console.log(file_hash);
+
+    // $("#" + file_hash + "_permbutton").click(function(){
+    //     console.log("asdf");
+    // });
 }
 
 
@@ -95,9 +113,24 @@ $('.folder').accordion({
 $('.permbutton').click(function (e) {
     // Set the path and open dialog:
     let path = e.currentTarget.getAttribute('path');
+
     perm_dialog.attr('filepath', path)
-    perm_dialog.dialog('open')
-    //open_permissions_dialog(path)
+
+
+    $('#effective_permission').attr('filepath', path);
+    console.log("path: " + path);
+
+    // let id_new_user_prefix = 'id_new_user_prefix'
+    // userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User", path);
+    // $('#sidepanel').append(userBtn);
+
+    // userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User", path);
+    // $('#sidepanel').empty;
+    // $('#sidepanel').append(userBtn);
+
+    // open_advanced_dialog(path)
+    // perm_dialog.dialog('open')
+    // open_permissions_dialog(path)
 
     // Deal with the fact that folders try to collapse/expand when you click on their permissions button:
     e.stopPropagation() // don't propagate button click to element underneath it (e.g. folder accordion)
@@ -108,5 +141,3 @@ $('.permbutton').click(function (e) {
 
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId()
-
-$('sidepanel').append(effective_permissions);

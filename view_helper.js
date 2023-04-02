@@ -21,7 +21,6 @@ function define_attribute_observer(watched_elem_selector, watched_attribute, on_
     })
     let watched_element = watched_elem_selector.get(0) // get the DOM element associated with the selector
     attribute_observer.observe(watched_element, {attributes: true})
-
 }
 
 
@@ -148,7 +147,7 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
 // - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
 function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null){
     // Set up the table:
-    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
+    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll; text-align: center; font-size: 18px; padding: 1%"><b>Effective Permissions</b><hr></div>`)
     
     // If no subset of permissions is passed in, use all of them.
     if(which_permissions === null) {
@@ -158,7 +157,7 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
     for(let p of which_permissions) {
         let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
         let row = $(`
-        <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}">
+        <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}" style="text-align: left; font-size: 16px; padding: 1%">
             <td id="${id_prefix}_checkcell_${p_id}" class="effectivecheckcell" width="16px"></td>
             <td id="${id_prefix}_name_${p_id}" class="effective_perm_name">${p}</td>
         </tr>
@@ -476,9 +475,9 @@ function open_user_select_dialog(to_populate_id) {
 // - id_prefix is the required id prefix that will be attached to all element ids.
 // - select_button_text is the text that will go on the button
 // - on_user_change is an additional function you can pass in, which will be called each time a user is selected.
-function define_new_user_select_field(id_prefix, select_button_text, on_user_change = function(selected_user){
+function define_new_user_select_field(id_prefix, select_button_text, selected_file_name, on_user_change = function(selected_user){
     $('#effective_permission').attr('username', selected_user);
-    $('#effective_permission').attr('filepath', '/C/presentation_documents/important_file.txt');
+    $('#effective_permission').attr('filepath', selected_file_name);
 }){
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
@@ -509,9 +508,8 @@ function define_new_user_select_field(id_prefix, select_button_text, on_user_cha
 // Get a (very simple) text representation of a permissions explanation
 function get_explanation_text(explanation) {
     return `
-    Action allowed?: ${explanation.is_allowed}; 
-    Because of
-    permission set for file: ${explanation.file_responsible?get_full_path(explanation.file_responsible):'N/A'}
+    Action allowed: ${explanation.is_allowed};
+    Because of permission set for file: ${explanation.file_responsible?get_full_path(explanation.file_responsible):'N/A'}
     and for user: ${ explanation.ace_responsible ? get_user_name(explanation.ace_responsible.who) : 'N/A' }
     ${ explanation.text_explanation ? `(${explanation.text_explanation})`  : '' }
     `
