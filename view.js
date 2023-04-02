@@ -26,9 +26,7 @@ $('.perm_info').click(function () {
     let username = $('#effective_permission').attr('username')
     let permName = $(this).attr('permission_name')
 
-    // let newDialog = define_new_dialog("new_dialog", permName);
-    
-    $('#new_dialog').text(permName)
+    $("#new_dialog").dialog({title: permName});
 
     newDialog.dialog('open')
     console.log("FILE PATH: " + filepath)
@@ -41,7 +39,7 @@ $('.perm_info').click(function () {
     let response = allow_user_action(fileObject, userObject, permName, true)
     let formatResponse = get_explanation_text(response)
     console.log(formatResponse)
-    
+
 
     $('#new_dialog').empty();
     $('#new_dialog').append(formatResponse);
