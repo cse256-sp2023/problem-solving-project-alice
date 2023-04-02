@@ -170,9 +170,8 @@ function define_new_effective_permissions(
   which_permissions = null
 ) {
   // Set up the table:
-  let effective_container = $(
-    `<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`
-  );
+  let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll; text-align: center; font-size: 18px; padding: 1%"><b>Effective Permissions</b><hr></div>`)
+
 
   // If no subset of permissions is passed in, use all of them.
   if (which_permissions === null) {

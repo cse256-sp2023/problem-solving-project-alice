@@ -16,7 +16,7 @@ $("#effective_permission").attr(
 $("#effective_permission").attr("username", "administrator");
 
 let id_new_user_prefix = "id_new_user_prefix";
-userBtn = define_new_user_select_field(id_new_user_prefix, "new_user_button");
+userBtn = define_new_user_select_field(id_new_user_prefix, "Select a user");
 $("#sidepanel").append(userBtn);
 
 let newDialog = define_new_dialog("new_dialog", "dialogPopup");
