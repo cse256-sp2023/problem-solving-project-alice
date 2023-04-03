@@ -45,6 +45,38 @@
   font-size: 20px;
 }
 
-/* #helpBody{
-  display: none;
-} */
+li {
+  margin-left: 1%;
+  margin-bottom: 1%;
+  display: list-item;
+  list-style-position: inside;
+}
+
+ul{
+  margin-left: 4%;
+  /* display: list-item;
+  list-style-position: inside; */
+}
+
+.sub{
+  margin-left:4%;
+  margin-bottom: 2%;
+}
+
+.body{
+  margin: 2%;
+}
+
+#help{
+  display: flex;
+  margin: 1%;
+  justify-content: space-between;
+}
+
+#helpImg{
+  /* width: 2; */
+}
+
+.box{
+  border: black 1px solid;
+}

@@ -180,7 +180,7 @@
                                 <span id="adv_effective_current_user" class="ui-widget-content"
                                     style="width: 80%; display: inline-block">&nbsp</span>
                                 <button id="adv_effective_user_select" class="ui-button ui-widget ui-corner-all">
-                                    Select...
+                                    Select user
                                 </button>
                             </div>
                             <div id="adv_effective_effective_text">
@@ -242,50 +242,100 @@
 
         <br><br>
         <div id="help">
-            <div class="helpTitle"><b>Helpful Tips</b></div>
-            <hr>
-            <img src="helpDiagram.png" alt="helpImage" width="500" height="auto">
-
-            <div id="terminology">
-                <div id="termTitle" class="helpTitle"><b>Useful Terminology</b></div>
-                <div id="helpBody">
+            <div class="box" id="helpImg">
+                <div id="imgTitle" class="helpTitle"><b>Helpful Tips</b>
+                </div>
+                <div  id="imgBody">
                     <hr>
+                    <img src="helpDiagram.png" alt="helpImage" width="500" height="auto">
+                </div>
+            </div>
 
+            <div class="box" id="terminology">
+                <div id="termTitle" class="helpTitle"><b>Useful Terminology</b></div>
+                <div class="body" id="helpBody">
+                    <hr>
                     This guide tells you what each permission will control. All the Effective Permissions listed will be
                     enabled unless Deny is checked.
+                    <br><br>
+                    <ol>
+                        <li><b>Read</b> - the user can read contents of the file.</li>
+                        <ul>
+                            <li>list folder/read contents</li>
+                            <li>read attributes</li>
+                            <li>read extended attributes</li>
+                        </ul>
+
+
+                        <li><b>Write</b> - the user can make changes to the content of the file.</li>
+                        <ul>
+                            <li>lcreate files/write data</li>
+                            <li>create folders/append data</li>
+                            <li>write attributes</li>
+                            <li>write extended attributes</li>
+                        </ul>
+
+
+                        <li><b>Read_Execute</b> - the user can view and run file.</li>
+                        <ul>
+                            <li>traverse folder/execute file</li>
+                        </ul>
+
+
+                        <li><b>Modify</b> - the user can make changes to the file.</li>
+                        <ul>
+                            <li>create files/write data</li>
+                            <li>create folders/append data</li>
+                            <li>write attributes</li>
+                            <li>write extended attributes</li>
+                            <li>delete subfolders and files</li>
+                            <li>delete</li>
+                        </ul>
+
+
+                        <li><b>Special permissions</b> - Special permissions</li>
+                        <ul>
+                            <li>read permissions</li>
+                            <li>change permissions</li>
+                            <li>take ownership</li>
+                        </ul>
+
+                    </ol>
 
                 </div>
             </div>
 
-            
 
-            <div id="useage">
+            <div class="box" id="useage">
                 <div id="useTitle" class="helpTitle"><b>General Permission Modification Guidelines</b></div>
-                <div id="useBody">
+                <div class="body" id="useBody">
                     <hr>
-
-                    This guide tells how to check and make changes to permissions. Follow the guide from 1-3 and check the “Uh oh” section for additional help.
+                    This guide tells how to check and make changes to permissions. Follow the guide from 1-3 and check
+                    the “Uh oh” section for additional help. <br><br>
                     <ol>
-                        <li>Check which permissions are enabled! Check marks indicate that permissions are enabled!</li>
-                        <ol type="a">
+                        <li><b>Check which permissions are enabled!</b> Check marks indicate that permissions are enabled!</li>
+                        <ol type="a" class="sub">
                             <li>“Select A User” and select the user</li>
-                            <li>Click on “Permissions” next to the file you wish to check. You can click “OK” when done with this step!</li>
-                            <li>Look at the Effective Permissions under the Effective Permissions Section. A permission with a check is enabled for the user on the file you selected.</li>
+                            <li>Click on “Permissions” next to the file you wish to check. You can click “OK” when done
+                                with this step!</li>
+                            <li>Look at the Effective Permissions under the Effective Permissions Section. A permission
+                                with a check is enabled for the user on the file you selected.</li>
                         </ol>
-                        <li>Change permissions</li>
-                        <ol tyle="a">
+                        <li><b>Change permissions</b></li>
+                        <ol type="a" class="sub">
                             <li>Click on the “Permissions” button and select group/user</li>
-                            <li>“Deny”: checking a permission in the deny column DENIES permissions for user, overriding “Allow” on that permission</li>
+                            <li>“Deny”: checking a permission in the deny column DENIES permissions for user, overriding
+                                “Allow” on that permission</li>
                             <li>“Allow” checking a permission in the deny column GIVES permissions to user</li>
                             <li>To be safe, if you are removing permissions for a user, use “Deny”</li>
                         </ol>
-                        <li>Click “OK” to implement changes!</li>
-                        <ol type="a">
+                        <li><b>Click “OK” to implement changes!</b></li>
+                        <ol type="a" class="sub">
                             <li>Repeat Step 1: Check which permissions are enabled!</li>
                         </ol>
                     </ol>
 
-                    <br><br>
+                    <br>
                     <b>Uh oh that’s not what I expected?! What could be wrong?</b>
                     <ol>
                         <li>Repeat Step 1: Check which permissions are enabled!</li>
@@ -296,7 +346,8 @@
                         <li>Direct permissions take precedence over inherited permissions</li>
 
                     </ol>
-                    
+
+
                 </div>
             </div>
         </div>
