@@ -1,16 +1,12 @@
 // ---- Define your dialogs and panels here ----
 
 let id_effective_permission = "effective_permission";
-effective_permissions = define_new_effective_permissions(
-  id_effective_permission,
-  true,
-  null
-);
+effective_permissions = define_new_effective_permissions(id_effective_permission, true, null);
 
 $('#sidepanel').append(effective_permissions);
 
 // $('#effective_permission').attr('filepath', '/C/presentation_documents/important_file.txt');
-$('#effective_permission').attr('username', 'administrator')
+// $('#effective_permission').attr('username', 'administrator')
 
 let id_new_user_prefix = 'id_new_user_prefix'
 userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User");
@@ -83,7 +79,6 @@ function make_file_element(file_obj) {
 }
 
 for (let root_file of root_files) {
-    console.log("ROOT FILE: " + root_file)
     let file_elem = make_file_element(root_file)
     $("#filestructure").append(file_elem);
 
@@ -111,8 +106,8 @@ $('.permbutton').click(function (e) {
     perm_dialog.attr('filepath', path)
 
 
-    $('#effective_permission').attr('filepath', path);
-    console.log("path: " + path);
+    // $('#effective_permission').attr('filepath', path);
+    
 
     open_advanced_dialog(path)
     perm_dialog.dialog('open')
@@ -137,7 +132,7 @@ $('.permbutton').click(function (e) {
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $("#html-loc").find("*").uniqueId();
 
-$("sidepanel").append(effective_permissions);
+// $("sidepanel").append(effective_permissions);
 
 //  Undo button functionality
 let previousState = null;

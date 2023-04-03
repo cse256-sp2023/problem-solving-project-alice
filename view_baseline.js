@@ -262,9 +262,9 @@ function open_advanced_dialog(file_path) {
     $('#adv_owner_user_list').append(all_user_list)
 
     // open dialog:
-    // $(`#advdialog`).dialog('open')
-    // $('#sidepanel').append(userBtn);
+    $(`#advdialog`).dialog('open')
 }
+
 
 // Update Effective User display
 function update_effective_user() {

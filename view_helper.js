@@ -79,9 +79,6 @@ function make_user_list(id_prefix, usermap, add_attributes = false) {
 }
 
 
-
-
-
 function make_files_list(id_prefix, file_obj) {
     let file_elements = [];
 
@@ -262,7 +259,9 @@ function define_single_select_list_file(
 // - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
 function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null) {
     // Set up the table:
-    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll; text-align: center; font-size: 18px; padding: 1%"><b>Effective Permissions</b><hr></div>`)
+    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll; text-align: center; font-size: 18px; padding: 1%"><b>Effective Permissions</b><hr>
+    Select a user and a file to see what they are currently allowed to do to the selected file <br><br></div>
+    `)
 
     // If no subset of permissions is passed in, use all of them.
     if (which_permissions === null) {
@@ -687,7 +686,7 @@ function open_file_select_dialog(to_populate_id) {
 // - on_user_change is an additional function you can pass in, which will be called each time a user is selected.
 function define_new_user_select_field(id_prefix, select_button_text, selected_file_name, on_user_change = function (selected_user) {
     $('#effective_permission').attr('username', selected_user);
-    $('#effective_permission').attr('filepath', selected_file_name);
+    console.log("asdfasdffsd")
 }) {
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
@@ -719,8 +718,7 @@ function define_new_user_select_field(id_prefix, select_button_text, selected_fi
 
 
 function define_new_file_select_field(id_prefix, select_button_text, selected_file_name, on_user_change = function (selected_file) {
-    $('#effective_permission').attr('username', selected_user);
-    $('#effective_permission').attr('filepath', selected_file_name);
+    $('#effective_permission').attr('filepath', selected_file);
 }) {
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
