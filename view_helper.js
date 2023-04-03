@@ -6,12 +6,12 @@
 
 // define an observer which will call the passed on_attr_change function when the watched_attribute of watched_elem_selector
 // (more precisely, the first element that matches watched_elem_selector; will not work as intended if the selector selects more than one thing.)
-function define_attribute_observer(watched_elem_selector, watched_attribute, on_attr_change = function(new_value){}){
+function define_attribute_observer(watched_elem_selector, watched_attribute, on_attr_change = function (new_value) { }) {
     // set up the observer:
-    let attribute_observer = new MutationObserver(function(mutationsList, observer){
-        for(let mutation of mutationsList) {
-            if(mutation.type === 'attributes') {
-                if(mutation.attributeName === watched_attribute) {
+    let attribute_observer = new MutationObserver(function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+                if (mutation.attributeName === watched_attribute) {
                     // call the function for processing of the attribute change:
                     on_attr_change(watched_elem_selector.attr(watched_attribute))
                 }
@@ -19,7 +19,7 @@ function define_attribute_observer(watched_elem_selector, watched_attribute, on_
         }
     })
     let watched_element = watched_elem_selector.get(0) // get the DOM element associated with the selector
-    attribute_observer.observe(watched_element, {attributes: true})
+    attribute_observer.observe(watched_element, { attributes: true })
 }
 
 // --- Helper functions to create transient elements and data structures.
@@ -31,6 +31,23 @@ function define_attribute_observer(watched_elem_selector, watched_attribute, on_
 function make_user_elem(id_prefix, uname, user_attributes = null) {
     user_elem = $(`<div class="ui-widget-content" id="${id_prefix}_${uname}" name="${uname}">
         <span id="${id_prefix}_${uname}_icon" class="oi ${is_user(all_users[uname]) ? "oi-person" : "oi-people"
+        }"/> 
+        <span id="${id_prefix}_${uname}_text">${uname} </span>
+    </div>`);
+
+    if (user_attributes) {
+        // if we need to add the user's attributes: go through the properties for that user and add each as an attribute to user_elem.
+        for (uprop in user_attributes) {
+            user_elem.attr(uprop, user_attributes[uprop]);
+        }
+    }
+
+    return user_elem;
+}
+
+function make_file_elem(id_prefix, uname, user_attributes = null) {
+    user_elem = $(`<div class="ui-widget-content" id="${id_prefix}_${uname}" name="${uname}">
+        <span id="${id_prefix}_${uname}_icon" class="oi oi-file"
         }"/> 
         <span id="${id_prefix}_${uname}_text">${uname} </span>
     </div>`);
@@ -59,6 +76,51 @@ function make_user_list(id_prefix, usermap, add_attributes = false) {
         u_elements.push(user_elem);
     }
     return u_elements;
+}
+
+
+
+
+
+function make_files_list(id_prefix, file_obj) {
+    let file_elements = [];
+
+    let file_hash = get_full_path(file_obj);
+
+    file_elem = make_file_elem(id_prefix, file_hash);
+
+    file_elements.push(file_elem);
+
+    if (file_obj.is_folder) {
+        if (file_hash in parent_to_children) {
+            for (child_file of parent_to_children[file_hash]) {
+                file_hash = get_full_path(child_file);
+                file_elem = make_file_elem(id_prefix, file_hash);
+                file_elements.push(file_elem);
+
+                if (child_file.is_folder) {
+                    if (file_hash in parent_to_children) {
+                        for (sub_child_file of parent_to_children[file_hash]) {
+                            file_hash = get_full_path(sub_child_file);
+                            file_elem = make_file_elem(id_prefix, file_hash);
+                            file_elements.push(file_elem);
+
+                            if (child_file.is_folder) {
+                                if (file_hash in parent_to_children) {
+                                    for (sub_child_file of parent_to_children[file_hash]) {
+                                        file_hash = get_full_path(sub_child_file);
+                                        file_elem = make_file_elem(id_prefix, file_hash);
+                                        file_elements.push(file_elem);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return file_elements;
 }
 
 // --- helper functions to define various semi-permanent elements.
@@ -108,6 +170,48 @@ function define_new_dialog(id_prefix, title = "", options = {}) {
 //    the selection event;
 //    and the actual HTML element of the selected item
 function define_single_select_list(
+    id_prefix,
+    on_selection_change = function (selected_item_name, e, ui) { }
+) {
+    let select_list = $(
+        `<div id="${id_prefix}" style="overflow-y:scroll"></div>`
+    ).selectable({
+        selected: function (e, ui) {
+            // Unselect any previously selected (normally, selectable allows multiple selections)
+            $(ui.selected)
+                .addClass("ui-selected")
+                .siblings()
+                .removeClass("ui-selected");
+
+            // store info about what item was selected:
+            selected_item_name = $(ui.selected).attr("name");
+            $(this).attr("selected_item", selected_item_name);
+
+            on_selection_change(selected_item_name, e, ui);
+
+            emitter.dispatchEvent(
+                new CustomEvent("userEvent", {
+                    detail: new ClickEntry(
+                        ActionEnum.CLICK,
+                        e.clientX + window.pageXOffset,
+                        e.clientY + window.pageYOffset,
+                        `${$(this).attr("id")} selected: ${selected_item_name}`,
+                        new Date().getTime()
+                    ),
+                })
+            );
+        },
+    });
+
+    select_list.unselect = function () {
+        select_list.find(".ui-selectee").removeClass("ui-selected");
+        on_selection_change("", null, null);
+    };
+
+    return select_list;
+}
+
+function define_single_select_list_file(
     id_prefix,
     on_selection_change = function (selected_item_name, e, ui) { }
 ) {
@@ -493,10 +597,19 @@ function define_file_permission_groups_list(id_prefix) {
 
 // Make a selectable list which will store all of the users, and automatically keep track of which one is selected.
 all_users_selectlist = define_single_select_list("user_select_list");
+all_files_selectlist = define_single_select_list_file("file_select_list");
 
 // Make the elements which reperesent all users, and add them to the selectable
 all_user_elements = make_user_list("user_select", all_users);
+console.log(all_user_elements);
 all_users_selectlist.append(all_user_elements);
+
+
+for (let root_file of root_files) {
+    all_file_elements = make_files_list("file_select", root_file);
+}
+console.log(all_file_elements);
+all_files_selectlist.append(all_file_elements);
 
 // Make the dialog:
 user_select_dialog = define_new_dialog("user_select_dialog2", "Select User", {
@@ -523,15 +636,48 @@ user_select_dialog = define_new_dialog("user_select_dialog2", "Select User", {
     },
 });
 
+
+file_select_dialog = define_new_dialog("file_select_dialog2", "Select File", {
+    buttons: {
+        Cancel: {
+            text: "Cancel",
+            id: "file_select_cancel_button",
+            click: function () {
+                $(this).dialog("close");
+            },
+        },
+        OK: {
+            text: "OK",
+            id: "file_select_ok_button",
+            click: function () {
+                // When "OK" is clicked, we want to populate some other element with the selected user name
+                //(to pass along the selection information to whoever opened this dialog)
+                let to_populate_id = $(this).attr("to_populate"); // which field do we need to populate?
+                let selected_value = all_files_selectlist.attr("selected_item"); // what is the user name that was selected?
+                $(`#${to_populate_id}`).attr("selected_file", selected_value); // populate the element with the id
+                $(this).dialog("close");
+            },
+        },
+    },
+});
+
 // add stuff to the dialog:
 user_select_dialog.append(all_users_selectlist);
-
+file_select_dialog.append(all_files_selectlist);
 // Call this function whenever you need a user select dialog; it will automatically populate the 'selected_user' attribute of the element with id to_populate_id
 function open_user_select_dialog(to_populate_id) {
     // TODO: reset selected user?..
 
     user_select_dialog.attr("to_populate", to_populate_id);
     user_select_dialog.dialog("open");
+}
+
+
+function open_file_select_dialog(to_populate_id) {
+    // TODO: reset selected user?..
+
+    file_select_dialog.attr("to_populate", to_populate_id);
+    file_select_dialog.dialog("open");
 }
 
 // define a new user-select field which opens up a user-select dialog and stores the result in its own selected_user attribute.
@@ -563,6 +709,39 @@ function define_new_user_select_field(id_prefix, select_button_text, selected_fi
             field_selector.text(new_username);
             // call the function for additional processing of user change:
             on_user_change(new_username);
+        }
+    );
+
+    return sel_section;
+}
+
+
+
+
+function define_new_file_select_field(id_prefix, select_button_text, selected_file_name, on_user_change = function (selected_file) {
+    $('#effective_permission').attr('username', selected_user);
+    $('#effective_permission').attr('filepath', selected_file_name);
+}) {
+    // Make the element:
+    let sel_section = $(`<div id="${id_prefix}_line" class="section">
+            <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">&nbsp</span>
+            <button id="${id_prefix}_button" class="ui-button ui-widget ui-corner-all">${select_button_text}</button>
+        </div>`);
+
+    // Open user select on button click:
+    sel_section.find(`#${id_prefix}_button`).click(function () {
+        open_file_select_dialog(`${id_prefix}_field`);
+    });
+
+    // Set up an observer to watch the attribute change and change the field
+    let field_selector = sel_section.find(`#${id_prefix}_field`);
+    define_attribute_observer(
+        field_selector,
+        "selected_file",
+        function (new_filename) {
+            field_selector.text(new_filename);
+            // call the function for additional processing of user change:
+            on_user_change(new_filename);
         }
     );
 
