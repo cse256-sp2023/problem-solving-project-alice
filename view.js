@@ -21,7 +21,6 @@ $('#sidepanel').append(fileBtn);
 
 let newDialog = define_new_dialog("new_dialog", "dialogPopup");
 $(".perm_info").click(function () {
-  console.log("clicked!");
   newDialog.dialog("open");
 
   let filepath = $("#effective_permission").attr("filepath");
@@ -83,7 +82,6 @@ for (let root_file of root_files) {
     $("#filestructure").append(file_elem);
 
     let file_hash = get_full_path(root_file) + "_permbutton";
-    console.log(file_hash);
 
     // $("#" + file_hash + "_permbutton").click(function(){
     //     console.log("asdf");
@@ -107,9 +105,8 @@ $('.permbutton').click(function (e) {
 
 
     // $('#effective_permission').attr('filepath', path);
-    
 
-    open_advanced_dialog(path)
+    // open_advanced_dialog(path)
     perm_dialog.dialog('open')
     open_permissions_dialog(path)
 
