@@ -260,7 +260,7 @@ function define_single_select_list_file(
 function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null) {
     // Set up the table:
     let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll; text-align: center; font-size: 18px; padding: 1%"><b>Effective Permissions</b><hr>
-    Select a user and a file to see what they are currently allowed to do to the selected file <br><br></div>
+    Select a user and a file to see what they are currently allowed to do to the selected file. Reselect the file and user to see changes you've made <br><br></div>
     `)
 
     // If no subset of permissions is passed in, use all of them.
