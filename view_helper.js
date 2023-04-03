@@ -686,7 +686,6 @@ function open_file_select_dialog(to_populate_id) {
 // - on_user_change is an additional function you can pass in, which will be called each time a user is selected.
 function define_new_user_select_field(id_prefix, select_button_text, selected_file_name, on_user_change = function (selected_user) {
     $('#effective_permission').attr('username', selected_user);
-    console.log("asdfasdffsd")
 }) {
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
