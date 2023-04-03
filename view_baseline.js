@@ -265,7 +265,6 @@ function open_advanced_dialog(file_path) {
     $(`#advdialog`).dialog('open')
 }
 
-
 // Update Effective User display
 function update_effective_user() {
     $('.effectivecheckcell').empty()
