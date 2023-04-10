@@ -8,6 +8,7 @@
 // (more precisely, the first element that matches watched_elem_selector; will not work as intended if the selector selects more than one thing.)
 function define_attribute_observer(watched_elem_selector, watched_attribute, on_attr_change = function (new_value) { }) {
     // set up the observer:
+    console.log("define_attribute_observer")
     let attribute_observer = new MutationObserver(function (mutationsList, observer) {
         for (let mutation of mutationsList) {
             if (mutation.type === 'attributes') {
@@ -666,7 +667,6 @@ file_select_dialog.append(all_files_selectlist);
 // Call this function whenever you need a user select dialog; it will automatically populate the 'selected_user' attribute of the element with id to_populate_id
 function open_user_select_dialog(to_populate_id) {
     // TODO: reset selected user?..
-
     user_select_dialog.attr("to_populate", to_populate_id);
     user_select_dialog.dialog("open");
 }
@@ -688,6 +688,7 @@ function define_new_user_select_field(id_prefix, select_button_text, selected_fi
     $('#effective_permission').attr('username', selected_user);
 }) {
     // Make the element:
+    console.log("makeElementButtonAdd")
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
             <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">&nbsp</span>
             <button id="${id_prefix}_button" class="ui-button ui-widget ui-corner-all">${select_button_text}</button>
@@ -700,14 +701,16 @@ function define_new_user_select_field(id_prefix, select_button_text, selected_fi
 
     // Set up an observer to watch the attribute change and change the field
     let field_selector = sel_section.find(`#${id_prefix}_field`);
-    define_attribute_observer(
-        field_selector,
-        "selected_user",
-        function (new_username) {
-            field_selector.text(new_username);
-            // call the function for additional processing of user change:
+    define_attribute_observer(field_selector, "selected_user", function (new_username) {
+        field_selector.text(new_username);
+        // call the function for additional processing of user change:
+        if (select_button_text == "Add...") {
+            on_add_button_change(new_username);
+        }
+        else {
             on_user_change(new_username);
         }
+    }
     );
 
     return sel_section;
