@@ -126,8 +126,8 @@ function log_file_user_ids() {
     $('#html-loc').attr(
         'data-tag',
         JSON.stringify(filepath_to_id) +
-            JSON.stringify(username_to_id) +
-            JSON.stringify(permission_ids)
+        JSON.stringify(username_to_id) +
+        JSON.stringify(permission_ids)
     );
 }
 
@@ -345,9 +345,11 @@ function convert_parent_permissions(file_obj) {
 
 function replace_child_perm_with_inherited(file_obj) {
     let filepath = get_full_path(file_obj);
-    for (c of parent_to_children[filepath]) {
-        c.using_permission_inheritance = true;
-        c.acl = [];
+    if (!(parent_to_children[filepath] == null)) {
+        for (c of parent_to_children[filepath]) {
+            c.using_permission_inheritance = true;
+            c.acl = [];
+        }
     }
     emitState();
 }

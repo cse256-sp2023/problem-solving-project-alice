@@ -8,14 +8,14 @@ $('#sidepanel').append(effective_permissions);
 // $('#effective_permission').attr('filepath', '/C/presentation_documents/important_file.txt');
 // $('#effective_permission').attr('username', 'administrator')
 
-let id_new_user_prefix = 'id_new_user_prefix'
-userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User");
-$('#sidepanel').append(userBtn);
+// let id_new_user_prefix = 'id_new_user_prefix'
+// userBtn = define_new_user_select_field(id_new_user_prefix, "Select A User");
+// $('#sidepanel').append(userBtn);
 
 
-let id_new_file_prefix = 'id_new_file_prefix'
-fileBtn = define_new_file_select_field(id_new_file_prefix, "Select A File");
-$('#sidepanel').append(fileBtn);
+// let id_new_file_prefix = 'id_new_file_prefix'
+// fileBtn = define_new_file_select_field(id_new_file_prefix, "Select A File");
+// $('#sidepanel').append(fileBtn);
 
 
 

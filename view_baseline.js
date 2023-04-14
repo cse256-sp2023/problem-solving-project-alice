@@ -79,9 +79,23 @@ cant_remove_dialog = define_new_dialog('cant_remove_inherited_dialog', 'Security
 })
 cant_remove_dialog.html(`
 <div id="cant_remove_text">
-    You can't remove <span id="cant_remove_username_1" class = "cant_remove_username"></span> because this object is inheriting permissions from 
-    its parent. To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
-    Turn off the option for inheriting permissions, and then try removing <span id="cant_remove_username_3" class = "cant_remove_username"></span>  again.
+    To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
+    <ol>
+        <li>Clicked Advanced</li>
+        <li>Deselect "Use permissions from parent object"</li>
+        <li>Select "Set all children objects to these perimissions"</li>
+        <li>Come back to this page and then remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>
+    </ol>
+
+    <div id="adv_perm_inheritance_div">
+                                <input type="checkbox" id="adv_perm_inheritance" name="inherit" />
+                                <label for="adv_perm_inheritance" id="adv_perm_inheritance_label">Use permissions from parent object</label>
+                            </div>
+                            <div id="adv_perm_replace_child_div">
+                                <input type="checkbox" id="adv_perm_replace_child_permissions" name="replace_child" />
+                                <label for="adv_perm_replace_child_permissions"
+                                    id="adv_perm_replace_child_permissions_label">Set all children objects to these perimissions</label>
+                            </div>
 </div>`)
 
 // Make a confirmation "are you sure you want to remove?" dialog
@@ -354,36 +368,21 @@ $('#adv_perm_inheritance').change(function () {
     else {
         // has just been turned off - pop up dialog with add/remove/cancel
         $(`<div id="add_remove_cancel" title="Security">
-            Warning: if you proceed, inheritable permissions will no longer propagate to this object.<br/>
-            - Click Add to convert and add inherited parent permissions as explicit permissions on this object<br/>
-            - Click Remove to remove inherited parent permissions from this object<br/>
-            - Click Cancel if you do not want to modify inheritance settings at this time.<br/>
+            Warning: If you proceed, inheritable permissions will no longer propagate to this object.<br/>
+            Click "OK" to accept these changes.
         </div>`).dialog({ // TODO: don't create this dialog on the fly
             modal: true,
             width: 400,
             appendTo: "#html-loc",
             position: { my: "top", at: "top", of: $('#html-loc') },
             buttons: {
-                Add: {
-                    text: "Add",
+                OK: {
+                    text: "OK",
                     id: "adv-inheritance-add-button",
                     click: function () {
                         let filepath = $('#advdialog').attr('filepath')
                         let file_obj = path_to_file[filepath]
                         convert_parent_permissions(file_obj)
-                        open_advanced_dialog(filepath) // reload/reopen 'advanced' dialog
-                        perm_dialog.attr('filepath', filepath) // force reload 'permissions' dialog
-                        $(this).dialog("close");
-                    },
-                },
-                Remove: {
-                    text: "Remove",
-                    id: "adv-inheritance-remove-button",
-                    click: function () {
-                        let filepath = $('#advdialog').attr('filepath')
-                        let file_obj = path_to_file[filepath]
-                        file_obj.using_permission_inheritance = false
-                        emitState()
                         open_advanced_dialog(filepath) // reload/reopen 'advanced' dialog
                         perm_dialog.attr('filepath', filepath) // force reload 'permissions' dialog
                         $(this).dialog("close");
