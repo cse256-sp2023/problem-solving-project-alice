@@ -77,26 +77,38 @@ cant_remove_dialog = define_new_dialog('cant_remove_inherited_dialog', 'Security
         }
     }
 })
+
 cant_remove_dialog.html(`
 <div id="cant_remove_text">
     To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
     <ol>
-        <li>Clicked Advanced</li>
+        <li>Click Advanced</li>
         <li>Deselect "Use permissions from parent object"</li>
         <li>Select "Set all children objects to these perimissions"</li>
         <li>Come back to this page and then remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>
     </ol>
-
-    <div id="adv_perm_inheritance_div">
-                                <input type="checkbox" id="adv_perm_inheritance" name="inherit" />
-                                <label for="adv_perm_inheritance" id="adv_perm_inheritance_label">Use permissions from parent object</label>
-                            </div>
-                            <div id="adv_perm_replace_child_div">
-                                <input type="checkbox" id="adv_perm_replace_child_permissions" name="replace_child" />
-                                <label for="adv_perm_replace_child_permissions"
-                                    id="adv_perm_replace_child_permissions_label">Set all children objects to these perimissions</label>
-                            </div>
 </div>`)
+
+// cant_remove_dialog.html(`
+// <div id="cant_remove_text">
+//     To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
+//     <ol>
+//         <li>Click Advanced</li>
+//         <li>Deselect "Use permissions from parent object"</li>
+//         <li>Select "Set all children objects to these perimissions"</li>
+//         <li>Come back to this page and then remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>
+//     </ol>
+
+//     <div id="adv_perm_inheritance_div">
+//                                 <input type="checkbox" id="adv_perm_inheritance" name="inherit" />
+//                                 <label for="adv_perm_inheritance" id="adv_perm_inheritance_label">Use permissions from parent object</label>
+//                             </div>
+//                             <div id="adv_perm_replace_child_div">
+//                                 <input type="checkbox" id="adv_perm_replace_child_permissions" name="replace_child" />
+//                                 <label for="adv_perm_replace_child_permissions"
+//                                     id="adv_perm_replace_child_permissions_label">Set all children objects to these perimissions</label>
+//                             </div>
+// </div>`)
 
 // Make a confirmation "are you sure you want to remove?" dialog
 // Dialog for confirming removal of permissions for user and file (user and file attributed need to be populated)
