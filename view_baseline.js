@@ -83,8 +83,8 @@ cant_remove_dialog.html(`
     To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
     <ol>
         <li>Click Advanced</li>
-        <li>Deselect "Use permissions from parent object"</li>
-        <li>Select "Set all children objects to these perimissions"</li>
+        <li>Deselect "Use Parent Permissions"</li>
+        <li>Select "Apply Inherited Permissions"</li>
         <li>Come back to this page and then remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>
     </ol>
 </div>`)
