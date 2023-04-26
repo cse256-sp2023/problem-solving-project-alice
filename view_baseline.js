@@ -41,6 +41,7 @@ grouped_permissions.addClass('section') // add a 'section' class to the grouped_
 // Make the list of users (empty for now - will get populated when we know the file):
 file_permission_users = define_single_select_list('permdialog_file_user_list', function (selected_user, e, ui) {
     // when a new user is selected, change username attribute of grouped permissions:
+    // TODO: RYAN
     grouped_permissions.attr('username', selected_user)
 })
 file_permission_users.css({
@@ -172,7 +173,7 @@ perm_remove_user_button.click(function () {
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
 perm_dialog.append(obj_name_div)
-perm_dialog.append($('<br><div id="permissions_user_title">Select a Group or user name to add, remove, and to view their permissions<br><br></div>'))
+perm_dialog.append($('<br><div id="permissions_user_title" style="color: red;">First select a User/Group to edit permissions!<br><br></div>'))
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
@@ -190,6 +191,7 @@ define_attribute_observer(perm_dialog, 'filepath', function () {
     // Generate element with all the file-specific users:
     file_users = get_file_users(path_to_file[current_filepath])
     file_user_list = make_user_list('permdialog_file_user', file_users, add_attributes = true)
+    // TODO: RYAN
     grouped_permissions.attr('username', '') // since we are reloading the user list, reset the username in permission checkboxes
     //replace previous user list with the one we just generated:
     file_permission_users.empty()
