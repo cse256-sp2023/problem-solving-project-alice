@@ -78,6 +78,7 @@ span {
     height: 30px;
     clear: both;
     cursor: pointer;
+    top: 5%;
 }
 
 #mturk-top-banner-text {

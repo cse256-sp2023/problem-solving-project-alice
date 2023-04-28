@@ -25,8 +25,8 @@ body {
 #mturk-top-banner-drop-down-content {
   position: absolute;
   width: 99%;
-  bottom: 0px;
-  top: unset;
+  bottom: unset;
+  top: 8%;
   left: 0;
   background-color: #eee;
   z-index: 100;
